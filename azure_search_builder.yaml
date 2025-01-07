@@ -1,0 +1,13 @@
+# tools/azure_search_builder.yaml
+name: Azure Search Builder
+description: Creates an Azure AI Search index for documents in blob storage
+inputs:
+  index_name:
+    type: string
+    description: Name of the search index to create
+  container_name:
+    type: string
+    description: Name of the blob container containing the documents
+outputs:
+  type: object
+  description: Status and details of created search resources
