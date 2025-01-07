@@ -1,0 +1,37 @@
+# flow.yaml
+inputs:
+  container_name:
+    type: string
+  query:
+    type: string
+    default: ""
+    is_required: false
+
+nodes:
+  - name: initialize_rag_system
+    type: python
+    source:
+      type: code
+      path: agentic_rag.py
+      function: initialize_rag
+    inputs:
+      container_name: ${inputs.container_name}
+
+  - name: process_query
+    type: python
+    source:
+      type: code
+      path: agentic_rag.py
+      function: query_system
+    inputs:
+      agent: ${nodes.initialize_rag_system.output.agent}
+      query: ${inputs.query}
+    skip_if: ${len(inputs.query) == 0}
+
+outputs:
+  system:
+    type: object
+    reference: ${nodes.initialize_rag_system.output}
+  response:
+    type: string
+    reference: ${nodes.process_query.output}
