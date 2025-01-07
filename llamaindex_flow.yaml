@@ -1,0 +1,22 @@
+# flow.yaml
+inputs:
+  index_name:
+    type: string
+  container_name:
+    type: string
+
+nodes:
+  - name: create_search_index
+    type: python
+    source:
+      type: code
+      path: llamaindex_search.py
+      function: main
+    inputs:
+      index_name: ${inputs.index_name}
+      container_name: ${inputs.container_name}
+
+outputs:
+  result:
+    type: object
+    reference: ${nodes.create_search_index.output}
